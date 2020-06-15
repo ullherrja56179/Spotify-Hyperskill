@@ -37,7 +37,7 @@ public class Main {
                     break;
                 }
                 default: {
-                    System.out.println("WRONG INPUT!");
+                    System.out.println("Entered Invalid Phrase");
                 }
             }
         }
