@@ -10,4 +10,7 @@ class getNew implements Stragety {
         System.out.println("The Greatest Show [Panic! At The Disco]");
         System.out.println("All Out Life [Slipknow]");
     }
+
+    @Override
+    public void doAuth() {}
 }

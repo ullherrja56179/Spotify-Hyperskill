@@ -13,22 +13,42 @@ public class Main {
             switch (input[0].toLowerCase()) {
                 case "new": {
                     ctx.setStrategy(new getNew());
-                    ctx.select("None");
+                    if (!ctx.isAuth) {
+                        System.out.println("Please, provide access for application");
+                    } else {
+                        ctx.select("None");
+                    }
                     break;
                 }
                 case "featured": {
                     ctx.setStrategy(new getFeatured());
-                    ctx.select("None");
+                    if (!ctx.isAuth) {
+                        System.out.println("Please, provide access for application");
+                    } else {
+                        ctx.select("None");
+                    }
                     break;
                 }
                 case "categories": {
                     ctx.setStrategy(new getCategories());
-                    ctx.select("None");
+                    if (!ctx.isAuth) {
+                        System.out.println("Please, provide access for application");
+                    } else {
+                        ctx.select("None");
+                    }
                     break;
                 }
                 case "playlists": {
                     ctx.setStrategy(new getPlaylists());
-                    ctx.select(input[1]);
+                    if (!ctx.isAuth) {
+                        System.out.println("Please, provide access for application");
+                    } else {
+                        ctx.select(input[1]);
+                    }
+                    break;
+                }
+                case "auth": {
+                    ctx.doAuth();
                     break;
                 }
                 case "exit": {
@@ -41,5 +61,9 @@ public class Main {
                 }
             }
         }
+    }
+
+    public boolean checkIfAuth(Context ctx) {
+        return ctx.isAuth;
     }
 }

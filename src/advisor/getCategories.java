@@ -10,4 +10,7 @@ class getCategories implements Stragety {
         System.out.println("Mood");
         System.out.println("Latin");
     }
+
+    @Override
+    public void doAuth() {}
 }

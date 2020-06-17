@@ -10,4 +10,7 @@ class getPlaylists implements Stragety {
         System.out.println("Arab Mood Booster");
         System.out.println("Sunday Stroll");
     }
+
+    @Override
+    public void doAuth() {}
 }
