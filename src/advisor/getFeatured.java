@@ -10,7 +10,4 @@ class getFeatured implements Stragety {
         System.out.println("Monday Motivation");
         System.out.println("Songs to Sing in the Shower");
     }
-
-    @Override
-    public void doAuth() {}
 }

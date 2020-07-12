@@ -1,11 +1,31 @@
 package advisor;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+
+    static List<User> usersList = new ArrayList<>();
+
+    public static void main(String[] args) throws IOException, InterruptedException {
         Scanner scanner = new Scanner(System.in);
         Context ctx = new Context();
+        String accessPoint = "";
+        String resourcePoint = "";
+
+        if(args.length > 0) {
+            if("-access".equals(args[0])) {
+                accessPoint = args[1];
+            }
+            if("-resource".equals(args[2])) {
+                resourcePoint = args[3];
+            }
+        } else {
+            accessPoint = "https://accounts.spotify.com";
+            resourcePoint = "https://api.spotify.com";
+        }
 
         while (true) {
             String in = scanner.nextLine();
@@ -14,7 +34,7 @@ public class Main {
                 case "new": {
                     ctx.setStrategy(new getNew());
                     if (!ctx.isAuth) {
-                        System.out.println("Please, provide access for application");
+                        System.out.println("Please, provide access for application.");
                     } else {
                         ctx.select("None");
                     }
@@ -23,7 +43,7 @@ public class Main {
                 case "featured": {
                     ctx.setStrategy(new getFeatured());
                     if (!ctx.isAuth) {
-                        System.out.println("Please, provide access for application");
+                        System.out.println("Please, provide access for application.");
                     } else {
                         ctx.select("None");
                     }
@@ -32,7 +52,7 @@ public class Main {
                 case "categories": {
                     ctx.setStrategy(new getCategories());
                     if (!ctx.isAuth) {
-                        System.out.println("Please, provide access for application");
+                        System.out.println("Please, provide access for application.");
                     } else {
                         ctx.select("None");
                     }
@@ -41,19 +61,38 @@ public class Main {
                 case "playlists": {
                     ctx.setStrategy(new getPlaylists());
                     if (!ctx.isAuth) {
-                        System.out.println("Please, provide access for application");
+                        System.out.println("Please, provide access for application.");
                     } else {
                         ctx.select(input[1]);
                     }
                     break;
                 }
                 case "auth": {
-                    ctx.doAuth();
+                    if(ctx.isAuth) {
+                        System.out.println("Already LoggedIn");
+                    } else {
+                        Authorize auth = new Authorize(accessPoint);
+                        auth.doAuth();
+                        usersList.add(new User(auth.getAccess_token()));
+                        ctx.login();
+                    }
                     break;
                 }
                 case "exit": {
                     System.out.println("---GOODBYE!---");
                     System.exit(1);
+                    ctx.logout();
+                    break;
+                }
+                case "logout": {
+                    ctx.logout();
+                    System.out.println("---YOU ARE NOW LOGGED OUT!---");
+                    break;
+                }
+                case "show": {
+                    for(User user : usersList) {
+                        System.out.println("id = " + user.getId() + " token = " + user.getAccess_token());
+                    }
                     break;
                 }
                 default: {
@@ -61,9 +100,5 @@ public class Main {
                 }
             }
         }
-    }
-
-    public boolean checkIfAuth(Context ctx) {
-        return ctx.isAuth;
     }
 }
