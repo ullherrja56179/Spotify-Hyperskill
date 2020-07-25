@@ -1,4 +1,4 @@
-package advisor;
+import java.io.IOException;
 
 class Context {
     Stragety strategy;
@@ -8,8 +8,8 @@ class Context {
         this.strategy = strategy;
     }
 
-    public void select(String genre) {
-        this.strategy.select(genre);
+    public void select(String genre, String ressourcePoint) throws IOException, InterruptedException {
+        this.strategy.select(genre, ressourcePoint);
     }
 
     public void login() {

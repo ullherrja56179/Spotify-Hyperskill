@@ -1,5 +1,3 @@
-package advisor;
-
 public class User {
     String access_token;
     int id;
@@ -9,7 +7,7 @@ public class User {
         this.access_token = access_token;
         count++;
         this.id = count;
-        System.out.println("Adding user with id = " + id + " and token = " + this.access_token);
+//        System.out.println("Adding user with id = " + id + " and token = " + this.access_token);
     }
 
     public int getId() {

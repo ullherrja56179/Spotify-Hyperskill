@@ -1,13 +1,10 @@
-package advisor;
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
-public class Main {
+public class MainApp {
 
-    static List<User> usersList = new ArrayList<>();
+//    public static List<User> usersList = new ArrayList<>();
+    public static User currentUser;
 
     public static void main(String[] args) throws IOException, InterruptedException {
         Scanner scanner = new Scanner(System.in);
@@ -21,22 +18,26 @@ public class Main {
             }
             if("-resource".equals(args[2])) {
                 resourcePoint = args[3];
+                //just create any user
+                currentUser = new User("123");
             }
         } else {
             accessPoint = "https://accounts.spotify.com";
             resourcePoint = "https://api.spotify.com";
         }
 
+        System.out.printf("Using:\n1. %s\n2. %s\n", accessPoint, resourcePoint);
+
         while (true) {
             String in = scanner.nextLine();
-            String[] input = in.split("\\s+");
+            String[] input = in.split("\\s+", 2);
             switch (input[0].toLowerCase()) {
                 case "new": {
                     ctx.setStrategy(new getNew());
                     if (!ctx.isAuth) {
                         System.out.println("Please, provide access for application.");
                     } else {
-                        ctx.select("None");
+                        ctx.select("None", resourcePoint);
                     }
                     break;
                 }
@@ -45,7 +46,7 @@ public class Main {
                     if (!ctx.isAuth) {
                         System.out.println("Please, provide access for application.");
                     } else {
-                        ctx.select("None");
+                        ctx.select("None", resourcePoint);
                     }
                     break;
                 }
@@ -54,7 +55,7 @@ public class Main {
                     if (!ctx.isAuth) {
                         System.out.println("Please, provide access for application.");
                     } else {
-                        ctx.select("None");
+                        ctx.select("None", resourcePoint);
                     }
                     break;
                 }
@@ -63,7 +64,7 @@ public class Main {
                     if (!ctx.isAuth) {
                         System.out.println("Please, provide access for application.");
                     } else {
-                        ctx.select(input[1]);
+                        ctx.select(input[1], resourcePoint);
                     }
                     break;
                 }
@@ -73,26 +74,21 @@ public class Main {
                     } else {
                         Authorize auth = new Authorize(accessPoint);
                         auth.doAuth();
-                        usersList.add(new User(auth.getAccess_token()));
+                        currentUser = new User(auth.getAccess_token());
                         ctx.login();
                     }
                     break;
                 }
                 case "exit": {
                     System.out.println("---GOODBYE!---");
-                    System.exit(1);
+                    System.exit(0);
                     ctx.logout();
                     break;
                 }
                 case "logout": {
                     ctx.logout();
+                    currentUser = null;
                     System.out.println("---YOU ARE NOW LOGGED OUT!---");
-                    break;
-                }
-                case "show": {
-                    for(User user : usersList) {
-                        System.out.println("id = " + user.getId() + " token = " + user.getAccess_token());
-                    }
                     break;
                 }
                 default: {

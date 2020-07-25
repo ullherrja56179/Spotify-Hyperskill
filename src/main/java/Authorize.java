@@ -1,7 +1,4 @@
-package advisor;
-
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
@@ -72,7 +69,6 @@ public class Authorize {
         }
 
         System.out.println("code received");
-//        System.out.println(code.split("=")[1]);
 
         //Stop Server as soon as Code is received
         server.stop(0);
@@ -93,11 +89,7 @@ public class Authorize {
         //Get the access Token
         JsonObject jsonResponse = JsonParser.parseString(response.body()).getAsJsonObject();
         access_token = jsonResponse.get("access_token").getAsString();
-        System.out.println(access_token);
-    }
-
-    public String getCode() {
-        return code;
+//        System.out.println(access_token);
     }
 
     public String getAccess_token() {
