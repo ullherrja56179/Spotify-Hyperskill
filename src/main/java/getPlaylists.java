@@ -9,7 +9,7 @@ import java.util.TreeMap;
 
 class getPlaylists implements Stragety {
 
-    private final String accessToken = MainApp.currentUser.getAccess_token();
+    private String accessToken = MainApp.currentUser.getAccess_token();
     private final Map<String, String> informations = new TreeMap<>();
 
 

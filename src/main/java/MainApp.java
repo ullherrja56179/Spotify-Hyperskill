@@ -25,68 +25,66 @@ public class MainApp {
             accessPoint = "https://accounts.spotify.com";
             resourcePoint = "https://api.spotify.com";
         }
-
-        System.out.printf("Using:\n1. %s\n2. %s\n", accessPoint, resourcePoint);
+        Authorize auth = new Authorize(accessPoint);
 
         while (true) {
             String in = scanner.nextLine();
             String[] input = in.split("\\s+", 2);
             switch (input[0].toLowerCase()) {
                 case "new": {
-                    ctx.setStrategy(new getNew());
-                    if (!ctx.isAuth) {
+                    if (!auth.isAuth()) {
                         System.out.println("Please, provide access for application.");
                     } else {
+                        ctx.setStrategy(new getNew());
                         ctx.select("None", resourcePoint);
                     }
                     break;
                 }
                 case "featured": {
-                    ctx.setStrategy(new getFeatured());
-                    if (!ctx.isAuth) {
+                    if (!auth.isAuth) {
                         System.out.println("Please, provide access for application.");
                     } else {
+                        ctx.setStrategy(new getFeatured());
                         ctx.select("None", resourcePoint);
                     }
                     break;
                 }
                 case "categories": {
-                    ctx.setStrategy(new getCategories());
-                    if (!ctx.isAuth) {
+                    if (!auth.isAuth) {
                         System.out.println("Please, provide access for application.");
                     } else {
+                        ctx.setStrategy(new getCategories());
                         ctx.select("None", resourcePoint);
                     }
                     break;
                 }
                 case "playlists": {
-                    ctx.setStrategy(new getPlaylists());
-                    if (!ctx.isAuth) {
+                    if (!auth.isAuth) {
                         System.out.println("Please, provide access for application.");
                     } else {
+                        ctx.setStrategy(new getPlaylists());
                         ctx.select(input[1], resourcePoint);
                     }
                     break;
                 }
                 case "auth": {
-                    if(ctx.isAuth) {
+                    if(auth.isAuth) {
                         System.out.println("Already LoggedIn");
                     } else {
-                        Authorize auth = new Authorize(accessPoint);
                         auth.doAuth();
                         currentUser = new User(auth.getAccess_token());
-                        ctx.login();
+                        auth.isAuth = true;
                     }
                     break;
                 }
                 case "exit": {
                     System.out.println("---GOODBYE!---");
                     System.exit(0);
-                    ctx.logout();
+                    auth.isAuth = false;
                     break;
                 }
                 case "logout": {
-                    ctx.logout();
+                    auth.isAuth = false;
                     currentUser = null;
                     System.out.println("---YOU ARE NOW LOGGED OUT!---");
                     break;

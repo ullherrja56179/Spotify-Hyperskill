@@ -10,21 +10,14 @@ import java.util.TreeMap;
 
 class getCategories implements Stragety {
 
-    private String link = "/v1/browse/categories?limit=10";
-    private String accessToken;
+    private final String accessToken = MainApp.currentUser.getAccess_token();
     private final static ArrayList<String> categories = new ArrayList<>();
     private final static TreeMap<String, String> ids = new TreeMap<>();
 
     @Override
     public void select(String genre, String ressourcePoint) throws IOException, InterruptedException {
 
-        try {
-             accessToken = MainApp.currentUser.getAccess_token();
-             System.out.println(accessToken);
-        } catch (NullPointerException e) {
-            System.out.println("You don't seem to be Logged in");
-        }
-
+        String link = "/v1/browse/categories?limit=10";
         HttpResponse<String> response = new RequestExecutor(link, ressourcePoint).MakeRequest();
 
         //Code must be 200 if OK

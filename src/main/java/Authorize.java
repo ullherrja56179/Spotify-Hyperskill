@@ -9,6 +9,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class Authorize {
+
+    public boolean isAuth = false;
     private final static String clientId = "1316195262f34d4b8aa63d3124190378";
     private final static String clientSecret = "96ff8d83a78d42929962aab9fbf3091f";
     private String code = "";
@@ -94,5 +96,9 @@ public class Authorize {
 
     public String getAccess_token() {
         return access_token;
+    }
+
+    public boolean isAuth() {
+        return isAuth;
     }
 }
